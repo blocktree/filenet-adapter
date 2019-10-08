@@ -165,12 +165,12 @@ func (c *Client) getBlockHeight() (uint64, error) {
 		return 0, err
 	}
 
-	//newheight := resp.Get("newheight").Uint()
+	newheight := resp.Get("newheight").Uint()
 	curheight := resp.Get("curheight").Uint()
-	//
-	//if newheight - curheight > 10 {
-	//	return 0, errors.New("Current height is not catched up with the new height!")
-	//}
+
+	if newheight - curheight > 20 {
+		return 0, errors.New("Current height is not catched up with the newest height!")
+	}
 
 	return curheight, nil
 }
