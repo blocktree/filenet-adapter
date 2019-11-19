@@ -12,6 +12,9 @@ import (
 var (
 	testApp        = "assets-adapter"
 	configFilePath = filepath.Join("conf")
+	dbFilePath = filepath.Join("data", "db")
+	dbFileName = "blockchain-FN.db"
+
 )
 
 func testInitWalletManager() *openw.WalletManager {
