@@ -158,7 +158,7 @@ func IsValid(address string) bool {
 		return false
 	}
 
-	chk := owcrypt.Hash(data[:21], 0, owcrypt.HASh_ALG_DOUBLE_SHA256)[:4]
+	chk := owcrypt.Hash(data[:21], 0, owcrypt.HASH_ALG_DOUBLE_SHA256)[:4]
 	for index := 0; index < 4; index++ {
 		if chk[index] != data[21+index] {
 			return false

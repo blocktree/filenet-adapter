@@ -4,17 +4,16 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/blocktree/openwallet/log"
-	"github.com/blocktree/openwallet/openw"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/log"
+	"github.com/blocktree/openwallet/v2/openw"
+	"github.com/blocktree/openwallet/v2/openwallet"
 )
 
 var (
 	testApp        = "assets-adapter"
 	configFilePath = filepath.Join("conf")
-	dbFilePath = filepath.Join("data", "db")
-	dbFileName = "blockchain-FN.db"
-
+	dbFilePath     = filepath.Join("data", "db")
+	dbFileName     = "blockchain-FN.db"
 )
 
 func testInitWalletManager() *openw.WalletManager {
@@ -133,8 +132,8 @@ func TestWalletManager_GetAddressList(t *testing.T) {
 
 	walletID := "W3DVjNaDs28ifXSVMHvEX7CffF7zthvXDw"
 
-	// accountID := "H2NAxMCLB6EfZWmVhMPseo35J8NiRWtRnVUGCLhk6nXo"
-	 accountID := "TWyBvS1YwHKikWmfUB4vYNGbDVnuFLAFsF57qRmP9Mp"
+	 accountID := "H2NAxMCLB6EfZWmVhMPseo35J8NiRWtRnVUGCLhk6nXo"
+	//accountID := "TWyBvS1YwHKikWmfUB4vYNGbDVnuFLAFsF57qRmP9Mp"
 
 	list, err := tm.GetAddressList(testApp, walletID, accountID, 0, -1, false)
 	if err != nil {

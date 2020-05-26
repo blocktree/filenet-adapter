@@ -18,8 +18,8 @@ package filenet
 import (
 	"fmt"
 
-	"github.com/blocktree/openwallet/crypto"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/crypto"
+	"github.com/blocktree/openwallet/v2/openwallet"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/tidwall/gjson"
 )
@@ -75,17 +75,17 @@ type Block struct {
 
 type TxTo struct {
 	Address string
-	Amount uint64
+	Amount  uint64
 }
 
 type Transaction struct {
-	TxID            string
-	TimeStamp       uint64
-	From            string
-	Amount          uint64
-	To              []TxTo
-	BlockHeight     uint64
-	BlockHash       string
+	TxID        string
+	TimeStamp   uint64
+	From        string
+	Amount      uint64
+	To          []TxTo
+	BlockHeight uint64
+	BlockHash   string
 }
 
 func NewTransaction(tx string) *Transaction {

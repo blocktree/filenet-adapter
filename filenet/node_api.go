@@ -24,7 +24,7 @@ import (
 
 	//"math/big"
 
-	"github.com/blocktree/openwallet/log"
+	"github.com/blocktree/openwallet/v2/log"
 	"github.com/imroc/req"
 	"github.com/tidwall/gjson"
 )
@@ -82,7 +82,6 @@ func (c *Client) Call(path string, request map[string]interface{}) (*gjson.Resul
 	if c.Debug {
 		log.Std.Info("Start Request API...")
 	}
-
 
 	r, err := c.client.Post(c.BaseURL+"/"+path, req.BodyJSON(&request), authHeader)
 
@@ -168,7 +167,7 @@ func (c *Client) getBlockHeight() (uint64, error) {
 	newheight := resp.Get("newheight").Uint()
 	curheight := resp.Get("curheight").Uint()
 
-	if newheight - curheight > 20 {
+	if newheight-curheight > 20 {
 		return 0, errors.New("Current height is not catched up with the newest height!")
 	}
 
@@ -180,7 +179,7 @@ func (c *Client) getBlockHash(height uint64) (string, error) {
 
 	path := "getblock"
 	request := map[string]interface{}{
-		"height":height,
+		"height": height,
 	}
 
 	resp, err := c.Call(path, request)
@@ -196,7 +195,7 @@ func (c *Client) getBalance(address string) (*AddrBalance, error) {
 
 	path := "getbalance"
 	request := map[string]interface{}{
-		"address":address,
+		"address": address,
 	}
 
 	resp, err := c.Call(path, request)
@@ -216,8 +215,8 @@ func (c *Client) getBlock(hash string) (*Block, error) {
 func (c *Client) getBlockByHeight(height uint64) (*Block, error) {
 	path := "getblock"
 	request := map[string]interface{}{
-			"height":height,
-		}
+		"height": height,
+	}
 
 	resp, err := c.Call(path, request)
 
@@ -246,6 +245,10 @@ func (c *Client) sendTransaction(rawTx string) (string, error) {
 
 	if err != nil {
 		return "", err
+	}
+
+	if len(resp.Get("txid").String()) != 64 {
+		fmt.Println("filenet-debug : \n TX to send : " + rawTx + "\n Node respond : \n" + resp.Raw )
 	}
 
 	return resp.Get("txid").String(), nil

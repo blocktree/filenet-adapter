@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	testNodeAPI  = "http://180.71.56.158:50051"
+	testNodeAPI = ""
 )
 
 func Test_getBlockHeight(t *testing.T) {

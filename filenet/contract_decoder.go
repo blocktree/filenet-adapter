@@ -3,17 +3,17 @@ package filenet
 import (
 	"errors"
 	"fmt"
-	"github.com/blocktree/openwallet/log"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/log"
+	"github.com/blocktree/openwallet/v2/openwallet"
 	"github.com/shopspring/decimal"
 	"math/big"
 	"strconv"
 )
 
 type AddrBalance struct {
-	Address      string
-	Balance      *big.Int
-	index        int
+	Address string
+	Balance *big.Int
+	index   int
 }
 
 func convertFlostStringToBigInt(amount string) (*big.Int, error) {

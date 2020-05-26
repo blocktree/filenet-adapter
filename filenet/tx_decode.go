@@ -22,8 +22,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/blocktree/openwallet/log"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/log"
+	"github.com/blocktree/openwallet/v2/openwallet"
 )
 
 type TransactionDecoder struct {
@@ -164,7 +164,7 @@ func (decoder *TransactionDecoder) CreateFNRawTransaction(wrapper openwallet.Wal
 	rawTx.FeeRate = convertToAmount(fee)
 
 	in := filenetTransaction.Vin{
-		Address:from,
+		Address: from,
 	}
 
 	out := filenetTransaction.Vout{
@@ -174,7 +174,6 @@ func (decoder *TransactionDecoder) CreateFNRawTransaction(wrapper openwallet.Wal
 
 	outs := make(filenetTransaction.Vouts, 1)
 	outs[0] = out
-
 
 	emptyTrans, hash, err := filenetTransaction.CreateEmptyTransactionAndHash(in, outs)
 	if err != nil {
@@ -258,9 +257,9 @@ func (decoder *TransactionDecoder) SignFNRawTransaction(wrapper openwallet.Walle
 func (decoder *TransactionDecoder) VerifyFNRawTransaction(wrapper openwallet.WalletDAI, rawTx *openwallet.RawTransaction) error {
 
 	var (
-		emptyTrans      = rawTx.RawHex
-		signature       = ""
-		pubkey          = ""
+		emptyTrans = rawTx.RawHex
+		signature  = ""
+		pubkey     = ""
 	)
 
 	for accountID, keySignatures := range rawTx.Signatures {
@@ -418,7 +417,7 @@ func (decoder *TransactionDecoder) createRawTransaction(wrapper openwallet.Walle
 	rawTx.FeeRate = convertToAmount(fee)
 
 	in := filenetTransaction.Vin{
-		Address:from,
+		Address: from,
 	}
 
 	out := filenetTransaction.Vout{

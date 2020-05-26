@@ -21,8 +21,8 @@ import (
 	"path/filepath"
 
 	"github.com/astaxie/beego/config"
-	"github.com/blocktree/openwallet/log"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/log"
+	"github.com/blocktree/openwallet/v2/openwallet"
 )
 
 //初始化配置流程
@@ -128,7 +128,6 @@ func (wm *WalletManager) LoadAssetsConfig(c config.Configer) error {
 	wm.Config.NodeAPI = c.String("nodeAPI")
 
 	wm.Client = NewClient(wm.Config.NodeAPI, "", false)
-
 
 	wm.Config.DataDir = c.String("dataDir")
 

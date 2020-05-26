@@ -16,14 +16,14 @@
 package openwtester
 
 import (
-	"github.com/blocktree/openwallet/common/file"
+	"github.com/blocktree/openwallet/v2/common/file"
 	"path/filepath"
 	"testing"
 
 	"github.com/astaxie/beego/config"
-	"github.com/blocktree/openwallet/log"
-	"github.com/blocktree/openwallet/openw"
-	"github.com/blocktree/openwallet/openwallet"
+	"github.com/blocktree/openwallet/v2/log"
+	"github.com/blocktree/openwallet/v2/openw"
+	"github.com/blocktree/openwallet/v2/openwallet"
 )
 
 ////////////////////////// 测试单个扫描器 //////////////////////////
@@ -54,6 +54,12 @@ func (sub *subscriberSingle) BlockExtractDataNotify(sourceKey string, data *open
 	return nil
 }
 
+
+func (sub *subscriberSingle) BlockExtractSmartContractDataNotify(sourceKey string, data *openwallet.SmartContractReceipt) error {
+	return nil
+}
+
+
 func TestSubscribeAddress(t *testing.T) {
 
 	var (
@@ -62,17 +68,25 @@ func TestSubscribeAddress(t *testing.T) {
 		addrs      = map[string]string{
 			"3bSAhsH2jHzjvKRQdGPUJTD5LPc1rve9ZWYBJcjusPjAgw41osocHcV": "test",
 			"63AVrXqk6U61NoLi9StpZ9chNL9PqPV6YNUFrQbAwvXEsry85NFGc7S": "test",
-			"3TMVXnuLLCyRbX1aj7Yv6uRhR67dMWKBRUcxp2mbKYpGGEh8WuSKdte":"test",
+			"3TMVXnuLLCyRbX1aj7Yv6uRhR67dMWKBRUcxp2mbKYpGGEh8WuSKdte": "test",
 		}
 	)
 
-	//GetSourceKeyByAddress 获取地址对应的数据源标识
-	scanAddressFunc := func(address string) (string, bool) {
-		key, ok := addrs[address]
+	var scanAddressFunc openwallet.BlockScanTargetFuncV2
+	scanAddressFunc = func (target openwallet.ScanTargetParam) openwallet.ScanTargetResult {
+		key, ok := addrs[target.ScanTarget]
 		if !ok {
-			return "", false
+			return openwallet.ScanTargetResult{
+				SourceKey:  key,
+				Exist:      false,
+				TargetInfo: nil,
+			}
 		}
-		return key, true
+		return openwallet.ScanTargetResult{
+			SourceKey:  key,
+			Exist:      true,
+			TargetInfo: nil,
+		}
 	}
 
 	assetsMgr, err := openw.GetAssetsAdapter(symbol)
@@ -109,7 +123,6 @@ func TestSubscribeAddress(t *testing.T) {
 		scanner.SetBlockchainDAI(dai)
 	}
 
-
 	scanner.SetRescanBlockHeight(2558800)
 
 	if scanner == nil {
@@ -117,7 +130,7 @@ func TestSubscribeAddress(t *testing.T) {
 		return
 	}
 
-	scanner.SetBlockScanAddressFunc(scanAddressFunc)
+	scanner.SetBlockScanTargetFuncV2(scanAddressFunc)
 
 	sub := subscriberSingle{}
 	scanner.AddObserver(&sub)
